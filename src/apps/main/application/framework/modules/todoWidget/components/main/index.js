@@ -6,6 +6,12 @@ import { bindActionCreators } from 'redux';
 import TextInput from 'components/textInput';
 import * as widgetActions from '../../actions/widgetActions';
 
+function generateId() {
+  return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+}
+
 let Todo = props => {
   let { todo } = props;
 
@@ -44,9 +50,9 @@ let Toolbar = props => {
 
 let ToolbarContainer = connect(
   state => {
-    let props = _.pick(state, [
-      'title'
-    ]);
+    let props = {
+      title: state.title
+    };
 
     return props;
   },
@@ -67,9 +73,9 @@ let TodoList = props => {
 
   return (
     <Todos>
-      {_.map(todos, (todo, id) => {
+      {todos.map(todo => {
         return (
-          <Todo todo={todo} />
+          <Todo todo={todo} key={generateId()}/>
         );
       })}
     </Todos>
@@ -78,13 +84,12 @@ let TodoList = props => {
 
 let TodoListContainer = connect(
   state => {
-    let props = _.pick(state, [
-      'todos'
-      ]);
+    let props = {
+      todos: state.todos
+    };
 
     return props;
-  },
-  dispatch => {}
+  }
 )(TodoList);
 
 let TodoWidget = props => {

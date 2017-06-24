@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import React, { Component as C } from 'react';
-import { bindActionCreators } from 'redux';
-import { Provider, connect } from 'react-redux';
+import { Provider } from 'react-redux';
 
 import store from './store';
 import Dashboard from '../application/children/dashboard/components/main';

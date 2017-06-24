@@ -1,21 +1,28 @@
 import _ from 'lodash';
+import { Record, Set } from 'immutable';
 
 import actionsTypes from '../actionTypes/widgetActionTypes';
 
-let defaultState = {
+const StateRecord = Record({
   title: '',
-  todos: []
-};
+  todos: new Set()
+});
+
+const defaultState = new StateRecord();
 
 let reducer = (state = defaultState, action) => {
-  return _.result({
+  let result = _.result({
     [actionsTypes.CHANGE_TITLE]: () => {
-      return { ...state, title: action.payload };
+      return state.set('title', action.payload);
     },
     [actionsTypes.ADD_TODO]: () => {
-      return { ...state, title: '', todos: [ ...state.todos, action.payload ] };
+      return state
+      .set('title', '')
+      .set('todos', state.todos.add(action.payload));
     }
-  }, action.type, state);
+  }, action.type, () => state);
+
+  return result;
 };
 
 export default reducer;
